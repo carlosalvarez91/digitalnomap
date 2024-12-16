@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1099180769157",
+    "project_id": "digitalnomap",
+    "storage_bucket": "digitalnomap.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099180769157:android:6d761af441487b28298eec",
+        "android_client_info": {
+          "package_name": "com.digitalnomap.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpldAPI_VKqhtvvz3R8Qr5rIevgIJWdIg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
