@@ -12,7 +12,12 @@
           "package_name": "com.digitalnomap.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1099180769157-pgr99lvbs2luulpdrjqfd3nba6ona8mu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDpldAPI_VKqhtvvz3R8Qr5rIevgIJWdIg"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1099180769157-pgr99lvbs2luulpdrjqfd3nba6ona8mu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1099180769157-inq89r170h90qc966dce6i1a1ul2fjtl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.digitalnomap.app"
+              }
+            }
+          ]
         }
       }
     }
