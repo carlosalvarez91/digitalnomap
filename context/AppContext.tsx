@@ -6,6 +6,8 @@ type AppContextType = {
   setIsAuthenticated: (value: boolean) => void;
   confirm: FirebaseAuthTypes.ConfirmationResult | null;
   setConfirm: (value: FirebaseAuthTypes.ConfirmationResult | null) => void;
+  hasCompletedOnboarding: boolean;
+  setHasCompletedOnboarding: (value: boolean) => void;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -17,12 +19,15 @@ type AppProviderProps = {
 export function AppProvider({ children }: AppProviderProps) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [confirm, setConfirm] = useState<FirebaseAuthTypes.ConfirmationResult | null>(null);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
 
   const value = {
     isAuthenticated,
     setIsAuthenticated,
     confirm,
     setConfirm,
+    hasCompletedOnboarding,
+    setHasCompletedOnboarding,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

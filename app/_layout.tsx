@@ -13,25 +13,34 @@ import { AppProvider, useApp } from '@/context/AppContext';
 SplashScreen.preventAutoHideAsync();
 
 function RootLayoutNav() {
-  const { isAuthenticated } = useApp();
+  const { isAuthenticated, hasCompletedOnboarding  } = useApp();
   const segments = useSegments();
   const navigationState = useRootNavigationState();
 
-  useEffect(() => {
-    if (!navigationState?.key) return;
+useEffect(() => {
+  if (!navigationState?.key) return;
 
-    const inAuthGroup = segments[0] === 'login';
-
-    if (!isAuthenticated && !inAuthGroup) {
-      router.replace('/login');
-    } else if (isAuthenticated && inAuthGroup) {
-      router.replace('/home');
+  // Only run the check if authenticated
+  if (isAuthenticated) {
+    if (hasCompletedOnboarding){
+      if (segments[0] !== 'home') {
+        router.replace('/home');
+      }
+    } else {
+      if (segments[0] !== 'onboarding') {
+        router.replace('/onboarding');
+      }
     }
-  }, [isAuthenticated, segments, navigationState?.key]);
+  } else {
+    // Not authenticated, redirect to login
+    router.replace('/login');
+  }
+}, [isAuthenticated, hasCompletedOnboarding, segments, navigationState?.key]);
 
   return (
     <Stack>
       <Stack.Screen name="login" options={{ headerShown: false }} />
+      <Stack.Screen name="onboarding" options={{ headerShown: false }} />
       <Stack.Screen name="home" options={{ headerShown: false }} />
       <Stack.Screen name="+not-found" />
     </Stack>

@@ -5,12 +5,13 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { useApp } from '@/context/AppContext';
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 
 export default function LoginScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [verificationCode, setVerificationCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const { setIsAuthenticated, confirm, setConfirm } = useApp();
+  const { setIsAuthenticated, confirm, setConfirm, setHasCompletedOnboarding } = useApp();
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged((user:any) => {
@@ -46,7 +47,7 @@ export default function LoginScreen() {
   };
 
   const handleVerifyCode = async () => {
-    console.log('verifying code', verificationCode, 'confirm', confirm);
+    console.log('verifying code', verificationCode);
     if (!verificationCode.trim() || !confirm) {
       Alert.alert('Error', 'Please enter the verification code');
       return;
@@ -55,7 +56,30 @@ export default function LoginScreen() {
     setLoading(true);
     try {
       await confirm.confirm(verificationCode);
-      // The onAuthStateChanged listener will handle the navigation
+      setIsAuthenticated(true);
+      // The onAuthStateChanged listener in AppContext will handle loading the onboarding status
+      // and the navigation logic in _layout.tsx will handle the routing
+
+      const user = auth().currentUser;
+      console.log('handleVerifyCode...')
+      console.log('user', user);
+      if (user) {
+        try {
+          const userDoc = await firestore()
+            .collection('users')
+            //.doc(user.uid)
+            .doc("BtWGLcrIGebODvNXFWL4Vzu4HO03") // User created by createUserDocument cloud function when creating new user in Authentication. A new user is not created when using test mode in Phone Auth
+            .get();
+  
+          const userData = userDoc.data();
+          console.log('userData', userData);
+          const hasCompletedOnboarding = userData?.hasCompletedOnboarding ?? false;
+          setHasCompletedOnboarding(hasCompletedOnboarding)
+        } catch (error) {
+          console.error('Error checking onboarding status:', error);
+        }
+      }
+
     } catch (error: any) {
       Alert.alert('Error', error?.message || 'Invalid verification code');
       console.error('Error confirming code:', error);
